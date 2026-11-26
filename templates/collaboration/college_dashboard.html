@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}College Dashboard{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">INSTITUTION WORKSPACE</span><h1>College dashboard</h1><p class="muted">Monitor student participation, industry activity and placement progress.</p></div><a class="btn primary" href="{% url 'reports' %}">View student report</a></div>
+<div class="stat-grid dashboard-stats"><div class="stat-box"><strong>{{ student_count }}</strong><span>Registered students</span></div><div class="stat-box"><strong>{{ company_count }}</strong><span>Industry accounts</span></div><div class="stat-box"><strong>{{ opportunity_count }}</strong><span>Open opportunities</span></div></div>
+<section class="panel"><div class="panel-head"><h2>Recent applications</h2></div>
+{% for app in applications %}<div class="list-row"><span>{{ app.student.username }} → {{ app.opportunity.title }}</span><span class="pill">{{ app.status }}</span></div>{% empty %}<p class="muted">No applications yet.</p>{% endfor %}</section>
+{% endblock %}

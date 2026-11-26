@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Opportunities{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">CAREER OPPORTUNITIES</span><h1>Find your next opportunity</h1><p class="muted">Explore internships and placement openings shared by industry partners.</p></div></div>
+<div class="filter-row"><a class="filter {% if not selected_type %}selected{% endif %}" href="{% url 'opportunity_list' %}">All</a><a class="filter {% if selected_type == 'internship' %}selected{% endif %}" href="?type=internship">Internships</a><a class="filter {% if selected_type == 'job' %}selected{% endif %}" href="?type=job">Placements / Jobs</a></div>
+<div class="opportunity-grid">{% for item in opportunities %}<article class="opportunity-card"><span class="tag">{{ item.get_opportunity_type_display }}</span><h2><a href="{% url 'opportunity_detail' item.pk %}">{{ item.title }}</a></h2><p>{{ item.company.profile.organization|default:item.company.username }}</p><p class="muted">{{ item.location|default:"Location not specified" }} · {{ item.stipend_or_salary|default:"Compensation not specified" }}</p><div class="chips">{% for skill in item.required_skills.all|slice:":4" %}<span class="skill-chip">{{ skill.name }}</span>{% endfor %}</div><a class="text-link" href="{% url 'opportunity_detail' item.pk %}">View details →</a></article>{% empty %}<div class="panel"><p>No opportunities match this filter yet.</p></div>{% endfor %}</div>
+{% endblock %}

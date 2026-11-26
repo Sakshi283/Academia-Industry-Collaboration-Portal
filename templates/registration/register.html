@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}Register | CampusConnect{% endblock %}
+
+{% block content %}
+
+<div class="form-shell">
+
+    <span class="eyebrow">JOIN THE NETWORK</span>
+    <h1>Create your account</h1>
+    <p class="muted">Select your role and enter your details.</p>
+
+    <form method="post" class="form-card">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="error-message">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+            {{ form.full_name }}
+            {{ form.full_name.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email Address</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.role.id_for_label }}">Register As</label>
+            {{ form.role }}
+            {{ form.role.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+            {{ form.phone }}
+            {{ form.phone.errors }}
+        </div>
+
+        <!-- Organization field appears only once -->
+        <div class="form-group">
+            <label id="organization-label" for="{{ form.organization.id_for_label }}">
+                Organization Name
+            </label>
+            {{ form.organization }}
+            {{ form.organization.errors }}
+        </div>
+
+        <!-- Student fields -->
+        <div id="student-fields" class="role-fields">
+            <h3>Academic Information</h3>
+
+            <div class="form-group">
+                <label>Course</label>
+                {{ form.course }}
+                {{ form.course.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Graduation Year</label>
+                {{ form.graduation_year }}
+                {{ form.graduation_year.errors }}
+            </div>
+        </div>
+
+        <!-- Industry fields -->
+        <div id="designation-field" class="role-fields">
+            <div class="form-group">
+                <label>Designation</label>
+                {{ form.designation }}
+                {{ form.designation.errors }}
+            </div>
+        </div>
+
+        <!-- Website field appears only once -->
+        <div id="website-field" class="role-fields">
+            <div class="form-group">
+                <label id="website-label">Website</label>
+                {{ form.website }}
+                {{ form.website.errors }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+        </div>
+
+        <button class="btn primary full" type="submit">
+            Create Account
+        </button>
+
+    </form>
+</div>
+
+<style>
+    .role-fields {
+        display: none;
+        margin-top: 15px;
+    }
+
+    .role-fields h3 {
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        box-sizing: border-box;
+    }
+
+    .errorlist {
+        color: #dc2626;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .error-message {
+        color: #dc2626;
+        margin-bottom: 15px;
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const roleSelect = document.getElementById("id_role");
+
+    const studentFields = document.getElementById("student-fields");
+    const designationField = document.getElementById("designation-field");
+    const websiteField = document.getElementById("website-field");
+
+    const organizationLabel = document.getElementById("organization-label");
+    const websiteLabel = document.getElementById("website-label");
+
+    function updateFields() {
+
+        const role = roleSelect.value;
+
+        studentFields.style.display = "none";
+        designationField.style.display = "none";
+        websiteField.style.display = "none";
+
+        if (role === "student") {
+            organizationLabel.textContent = "College Name";
+            studentFields.style.display = "block";
+        }
+
+        else if (role === "industry") {
+            organizationLabel.textContent = "Company Name";
+            designationField.style.display = "block";
+            websiteField.style.display = "block";
+            websiteLabel.textContent = "Company Website";
+        }
+
+        else if (role === "college") {
+            organizationLabel.textContent = "Institution Name";
+            websiteField.style.display = "block";
+            websiteLabel.textContent = "Institution Website";
+        }
+    }
+
+    roleSelect.addEventListener("change", updateFields);
+    updateFields();
+
+});
+</script>
+
+{% endblock %}

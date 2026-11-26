@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CampusConnect{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="{% url 'home' %}">CampusConnect</a>
+    <nav>
+        <a href="{% url 'opportunity_list' %}">Opportunities</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile_edit' %}">Profile</a>
+            {% if user.profile.role == 'student' %}
+                <a href="{% url 'skills' %}">My Skills</a>
+                <a href="{% url 'skill_mapping' %}">Skill Mapping</a>
+            {% elif user.profile.role == 'industry' %}
+                <a href="{% url 'applications_manage' %}">Applications</a>
+            {% elif user.profile.role == 'college' %}
+                <a href="{% url 'reports' %}">Reports</a>
+            {% endif %}
+            <form class="logout-form" method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="nav-button">Logout</button></form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a class="nav-cta" href="{% url 'register' %}">Get started</a>
+        {% endif %}
+    </nav>
+</header>
+<main class="container">
+    {% if messages %}
+        {% for message in messages %}<div class="alert {{ message.tags }}">{{ message }}</div>{% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+<footer>CampusConnect · Academia meets industry</footer>
+</body>
+</html>

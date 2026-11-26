@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Skill Mapping{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">SKILL GAP ANALYSIS</span><h1>Skill mapping</h1><p class="muted">See how your current skills compare with the skills requested by companies.</p></div><a class="btn secondary" href="{% url 'skills' %}">Update my skills</a></div>
+{% for row in results %}<section class="panel mapping-card"><div class="mapping-title"><div><span class="tag">{{ row.opportunity.get_opportunity_type_display }}</span><h2><a href="{% url 'opportunity_detail' row.opportunity.pk %}">{{ row.opportunity.title }}</a></h2><p class="muted">{{ row.opportunity.company.profile.organization|default:row.opportunity.company.username }}</p></div><div class="match-score">{{ row.percent }}%<small>skill match</small></div></div>
+<div class="progress"><i style="width:{{ row.percent }}%"></i></div>
+<div class="skill-columns"><div><h4>Skills you have</h4>{% for skill in row.matched %}<span class="skill-chip good">{{ skill }}</span>{% empty %}<span class="muted">No matching skills yet</span>{% endfor %}</div><div><h4>Skills to improve</h4>{% for skill in row.missing %}<span class="skill-chip missing">{{ skill }}</span>{% empty %}<span class="muted">You have all listed required skills!</span>{% endfor %}</div></div></section>
+{% empty %}<section class="panel"><p>No active opportunities are available for skill mapping yet.</p></section>{% endfor %}
+{% endblock %}

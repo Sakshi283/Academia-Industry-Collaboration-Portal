@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }}{% endblock %}
+{% block content %}
+<div class="form-shell"><span class="eyebrow">CAMPUSCONNECT</span><h1>{{ heading }}</h1>
+<form method="post" class="form-card">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn primary" type="submit">{{ button }}</button>
+</form></div>
+{% endblock %}

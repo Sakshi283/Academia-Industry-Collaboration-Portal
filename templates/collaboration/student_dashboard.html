@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">STUDENT WORKSPACE</span><h1>Hello, {{ user.first_name|default:user.username }}!</h1><p class="muted">Build your profile, understand your skill gaps and find your next opportunity.</p></div><a class="btn primary" href="{% url 'opportunity_list' %}">Browse opportunities</a></div>
+<div class="stat-grid dashboard-stats"><div class="stat-box"><strong>{{ skill_count }}</strong><span>Skills added</span></div><div class="stat-box"><strong>{{ applications|length }}</strong><span>Applications</span></div><div class="stat-box"><strong>{{ recommended|length }}</strong><span>Open opportunities</span></div></div>
+<div class="two-col">
+<section class="panel"><div class="panel-head"><h2>My skills</h2><a href="{% url 'skills' %}">Manage →</a></div>
+{% for item in my_skills %}<div class="list-row"><span>{{ item.skill.name }}</span><span class="pill">{{ item.level }}</span></div>{% empty %}<p class="muted">No skills added yet. Add skills to get a useful skill-gap analysis.</p><a href="{% url 'skills' %}" class="text-link">Add your first skill →</a>{% endfor %}
+</section>
+<section class="panel"><div class="panel-head"><h2>My applications</h2></div>
+{% for app in applications %}<div class="list-row"><span>{{ app.opportunity.title }}</span><span class="pill">{{ app.status }}</span></div>{% empty %}<p class="muted">You haven't applied to any opportunities yet.</p>{% endfor %}
+</section></div>
+<section class="panel"><div class="panel-head"><h2>Recently posted opportunities</h2><a href="{% url 'opportunity_list' %}">View all →</a></div>
+<div class="opportunity-grid">{% for item in recommended %}<article class="opportunity-card"><span class="tag">{{ item.get_opportunity_type_display }}</span><h3><a href="{% url 'opportunity_detail' item.pk %}">{{ item.title }}</a></h3><p>{{ item.company.profile.organization|default:item.company.username }}</p><small>{{ item.location|default:"Location not specified" }}</small></article>{% empty %}<p class="muted">No opportunities available at the moment.</p>{% endfor %}</div></section>
+{% endblock %}

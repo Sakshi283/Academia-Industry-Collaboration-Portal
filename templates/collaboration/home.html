@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}CampusConnect | Home{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">ACADEMIA × INDUSTRY</span>
+        <h1>Turn your skills into <span>opportunities.</span></h1>
+        <p>A collaborative platform for students, colleges and companies to connect skills with real industry needs, internships and placements.</p>
+        <div class="actions"><a class="btn primary" href="{% url 'register' %}">Create account</a><a class="btn secondary" href="{% url 'opportunity_list' %}">Explore opportunities</a></div>
+    </div>
+    <div class="hero-card">
+        <div class="mini-label">PLATFORM OVERVIEW</div>
+        <div class="stat-grid">
+            <div><strong>{{ stats.students }}</strong><span>Students</span></div>
+            <div><strong>{{ stats.companies }}</strong><span>Companies</span></div>
+            <div><strong>{{ stats.opportunities }}</strong><span>Open opportunities</span></div>
+        </div>
+        <div class="skill-preview"><span>Skill mapping</span><div class="progress"><i style="width:78%"></i></div><small>Connect learning to hiring needs</small></div>
+    </div>
+</section>
+<section class="section">
+    <div class="section-heading"><span class="eyebrow">ONE CONNECTED ECOSYSTEM</span><h2>Everything in one place</h2></div>
+    <div class="feature-grid">
+        <article class="feature"><div class="icon">01</div><h3>Skill mapping</h3><p>Compare student skills with company requirements and identify skill gaps.</p></article>
+        <article class="feature"><div class="icon">02</div><h3>Internships</h3><p>Discover opportunities, review eligibility and submit applications.</p></article>
+        <article class="feature"><div class="icon">03</div><h3>Placement tracking</h3><p>Companies manage applicants while colleges monitor placement activity.</p></article>
+    </div>
+</section>
+{% endblock %}

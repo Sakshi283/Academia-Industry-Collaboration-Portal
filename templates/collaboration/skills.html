@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}My Skills{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <span class="eyebrow">YOUR SKILL PROFILE</span>
+        <h1>My skills</h1>
+        <p class="muted">
+            Add the skills you currently have and choose your proficiency level.
+        </p>
+    </div>
+</div>
+
+<div class="two-col align-start">
+
+    <!-- Add Skill Section -->
+    <section class="panel">
+        <h2>Add a skill</h2>
+
+        <form method="post" class="form-card compact">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button class="btn primary" type="submit">
+                Add skill
+            </button>
+        </form>
+    </section>
+
+    <!-- My Skills Section -->
+    <section class="panel">
+
+        <h2>Skills you've added</h2>
+
+        {% for item in items %}
+
+        <div class="list-row">
+            <div>
+                <strong>{{ item.skill.name }}</strong>
+                <span class="pill">{{ item.level }}</span>
+            </div>
+
+            <form method="post"
+                  action="{% url 'delete_skill' item.pk %}"
+                  onsubmit="return confirm('Are you sure you want to remove this skill?');">
+
+                {% csrf_token %}
+
+                <button type="submit" class="btn danger">
+                    Remove
+                </button>
+            </form>
+        </div>
+
+        {% empty %}
+
+        <p class="muted">Your skills will appear here.</p>
+
+        {% endfor %}
+
+        <a class="btn secondary top-gap" href="{% url 'skill_mapping' %}">
+            Check skill gaps
+        </a>
+
+    </section>
+
+</div>
+
+{% endblock %}

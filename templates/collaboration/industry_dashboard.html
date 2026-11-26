@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Industry Dashboard{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">INDUSTRY WORKSPACE</span><h1>Company dashboard</h1><p class="muted">Publish opportunities and manage student applications.</p></div><a class="btn primary" href="{% url 'opportunity_create' %}">+ Post opportunity</a></div>
+<div class="stat-grid dashboard-stats"><div class="stat-box"><strong>{{ opportunities|length }}</strong><span>Your opportunities</span></div><div class="stat-box"><strong>{{ application_count }}</strong><span>Total applications</span></div></div>
+<section class="panel"><div class="panel-head"><h2>Your opportunities</h2><a href="{% url 'applications_manage' %}">Manage applications →</a></div>
+{% for item in opportunities %}<div class="list-row"><div><strong>{{ item.title }}</strong><small class="block muted">{{ item.get_opportunity_type_display }} · {{ item.location|default:"Location not specified" }}</small></div><div><span class="pill">{% if item.is_active %}Active{% else %}Closed{% endif %}</span> <a class="text-link" href="{% url 'opportunity_edit' item.pk %}">Edit</a></div></div>{% empty %}<p class="muted">You haven't posted any opportunities yet.</p>{% endfor %}</section>
+{% endblock %}

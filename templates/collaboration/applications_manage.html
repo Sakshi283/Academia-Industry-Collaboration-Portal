@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Manage Applications{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">HIRING WORKSPACE</span><h1>Student applications</h1><p class="muted">Review applicants and update their application status.</p></div></div>
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>Student</th><th>Opportunity</th><th>Applied on</th><th>Status</th><th>Update</th></tr></thead><tbody>
+{% for app in applications %}<tr><td>{{ app.student.get_full_name|default:app.student.username }}</td><td>{{ app.opportunity.title }}</td><td>{{ app.applied_at|date:"d M Y" }}</td><td>{{ app.status }}</td><td><form method="post" action="{% url 'application_update' app.pk %}" class="inline-form">{% csrf_token %}<select name="status">{% for value,label in app.STATUSES %}<option value="{{ value }}" {% if app.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn small primary">Save</button></form></td></tr>{% empty %}<tr><td colspan="5">No applications received yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

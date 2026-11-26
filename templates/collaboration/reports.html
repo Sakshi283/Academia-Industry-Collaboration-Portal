@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}College Reports | CampusConnect{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <span class="eyebrow">INSTITUTION REPORTING</span>
+        <h1>Student Activity Report</h1>
+        <p class="muted">
+            Monitor student skills, academic details and application activity.
+        </p>
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="btn secondary">
+        Back to Dashboard
+    </a>
+</div>
+
+<section class="panel">
+
+    <div class="panel-head">
+        <h2>Registered Student Details</h2>
+        <span class="pill">
+            Total Students: {{ student_data|length }}
+        </span>
+    </div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>College</th>
+                    <th>Course</th>
+                    <th>Graduation Year</th>
+                    <th>Skills</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in student_data %}
+
+                <tr>
+                    <td>
+                        {{ row.user.get_full_name|default:row.user.username }}
+                    </td>
+
+                    <td>
+                        {{ row.user.email|default:"—" }}
+                    </td>
+
+                    <td>
+                        {{ row.profile.organization|default:"—" }}
+                    </td>
+
+                    <td>
+                        {{ row.profile.course|default:"—" }}
+                    </td>
+
+                    <td>
+                        {{ row.profile.graduation_year|default:"—" }}
+                    </td>
+
+                    <td>
+                        <span class="pill">
+                            {{ row.skill_count }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="pill">
+                            {{ row.application_count }}
+                        </span>
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="7" class="center muted">
+                        No valid student records found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}
